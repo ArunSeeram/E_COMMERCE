@@ -4,11 +4,9 @@ const cors = require('cors');
 const path = require('path');
 
 const app = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 8080;
 
 // MySQL Connection
-import mysql from "mysql2/promise";
-
 const dbConfig = {
   host: process.env.MYSQLHOST,
   user: process.env.MYSQLUSER,
@@ -27,10 +25,14 @@ mysql.createConnection(dbConfig)
     console.error("❌ MySQL connection error:", err);
   });
 
+// Example route
+app.get("/", (req, res) => {
+  res.send("E-commerce backend is running 🚀");
+});
 
-connectDB();
-
-export default db;
+app.listen(port, () => {
+  console.log(`🚀 Server running on port ${port}`);
+});
 
 
 // Middleware
