@@ -6,6 +6,12 @@ const path = require('path');
 const app = express();
 const port = process.env.PORT || 8080;
 
+// Middleware
+app.use(cors());
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(express.static(path.join(__dirname, 'public')));
+
 // MySQL Connection
 const dbConfig = {
   host: process.env.MYSQLHOST,
@@ -24,22 +30,6 @@ mysql.createConnection(dbConfig)
   .catch(err => {
     console.error("❌ MySQL connection error:", err);
   });
-
-// Example route
-app.get("/", (req, res) => {
-  res.send("E-commerce backend is running 🚀");
-});
-
-app.listen(port, () => {
-  console.log(`🚀 Server running on port ${port}`);
-});
-
-
-// Middleware
-app.use(cors());
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use(express.static(path.join(__dirname, 'public')));
 
 // Serve HTML
 app.get('/', (req, res) => {
@@ -69,6 +59,6 @@ app.post('/api/orders', async (req, res) => {
 });
 
 // Start Server
-app.listen(port, () => {
+app.listen(port, "0.0.0.0", () => {
   console.log(`🚀 Server running at http://localhost:${port}`);
 });
