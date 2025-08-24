@@ -7,22 +7,31 @@ const app = express();
 const port = process.env.PORT || 3000;
 
 // MySQL Connection
+import mysql from "mysql2/promise";
+
 const dbConfig = {
-  host: 'localhost',
-  user: 'root',
-  password: 'root', 
-  database: 'narayanisilks',
+  host: process.env.MYSQLHOST,
+  user: process.env.MYSQLUSER,
+  password: process.env.MYSQLPASSWORD,
+  database: process.env.MYSQLDATABASE,
+  port: process.env.MYSQLPORT, // very important!
 };
 
 let db;
 mysql.createConnection(dbConfig)
   .then(connection => {
     db = connection;
-    console.log('🟢 Connected to MySQL');
+    console.log("🟢 Connected to MySQL");
   })
   .catch(err => {
-    console.error('❌ MySQL connection error:', err);
+    console.error("❌ MySQL connection error:", err);
   });
+
+
+connectDB();
+
+export default db;
+
 
 // Middleware
 app.use(cors());
